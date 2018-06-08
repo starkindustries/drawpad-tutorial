@@ -47,22 +47,25 @@ class ViewController: UIViewController {
     
     // MARK: - Actions
     
-    @IBAction func reset(sender: AnyObject) {
+    @IBAction func reset(_ sender: AnyObject) {
         mainImageView.image = nil
     }
     
-    @IBAction func share(sender: AnyObject) {
+    @IBAction func share(_ sender: AnyObject) {
         UIGraphicsBeginImageContext(mainImageView.bounds.size)
         mainImageView.image?.draw(in: CGRect(x: 0, y: 0,
                                              width: mainImageView.frame.size.width, height: mainImageView.frame.size.height))
-        let image = UIGraphicsGetImageFromCurrentImageContext()
+        guard let image = UIGraphicsGetImageFromCurrentImageContext() else {
+            print("ERROR: UIGraphicsGetImageFromCurrentImageContext returned nil")
+            return
+        }
         UIGraphicsEndImageContext()
         
         let activity = UIActivityViewController(activityItems: [image], applicationActivities: nil)
         present(activity, animated: true, completion: nil)
     }
     
-    @IBAction func pencilPressed(sender: AnyObject) {
+    @IBAction func pencilPressed(_ sender: AnyObject) {
         
         var index = sender.tag ?? 0
         if index < 0 || index >= colors.count {
@@ -150,6 +153,7 @@ class ViewController: UIViewController {
 
 extension ViewController: SettingsViewControllerDelegate {
     func settingsViewControllerFinished(settingsViewController: SettingsViewController) {
+        print("DEBUG: ViewController: SettingsViewControllerDelegate")
         self.brushWidth = settingsViewController.brush
         self.opacity = settingsViewController.opacity
         self.red = settingsViewController.red

@@ -42,12 +42,14 @@ class SettingsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func close(sender: AnyObject) {
+    @IBAction func close(_ sender: AnyObject) {
+        print("DEBUG: close function")
         dismiss(animated: true, completion: nil)
-        self.delegate?.settingsViewControllerFinished(settingsViewController: self)        
+        self.delegate?.settingsViewControllerFinished(settingsViewController: self)
+        
     }
     
-    @IBAction func colorChanged(sender: UISlider) {
+    @IBAction func colorChanged(_ sender: UISlider) {
         red = CGFloat(sliderRed.value / 255.0)
         labelRed.text = NSString(format: "%d", Int(sliderRed.value)) as String
         green = CGFloat(sliderGreen.value / 255.0)
@@ -58,7 +60,7 @@ class SettingsViewController: UIViewController {
         drawPreview()
     }
     
-    @IBAction func sliderChanged(sender: UISlider) {
+    @IBAction func sliderChanged(_ sender: UISlider) {
         if sender == sliderBrush {
             brush = CGFloat(sender.value)
             labelBrush.text = NSString(format: "%.2f", brush.native) as String
